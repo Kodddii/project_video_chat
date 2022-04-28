@@ -1,6 +1,19 @@
-const app = require("express")();
+const express = require("express")
 const server = require("http").createServer(app);
 const cors = require("cors");
+const fs = require("fs")
+const http = require("http")
+const https = require("https")
+const privateKey = fs.readFileSync(__dirname + '/private.key', 'utf8');
+const certificate = fs.readFileSync(__dirname + '/certificate.crt', 'utf8');
+const ca = fs.readFileSync(__dirname + '/ca_bundle.crt', 'utf8');
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
+const app_low = express();
+const app = express();
 
 const io = require("socket.io")(server, {
 	cors: {
